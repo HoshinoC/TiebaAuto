@@ -1,6 +1,7 @@
 import asyncio
 import aiotieba as tb
 import os
+import sys
 
 # 从Actions环境变量中获取BDUSS
 # 该环境变量配置在"Settings" > "Secrets and variables" > "Actions"
@@ -10,7 +11,8 @@ BDUSS = os.environ.get('BDUSS')
 async def main():
     if not BDUSS:
         print("错误: 未设置BDUSS环境变量")
-        return
+        # 非零退出码可以让GitHub Actions知道脚本执行失败
+        sys.exit(1)
     
     async with tb.Client(BDUSS) as client:
         # 获取用户信息
